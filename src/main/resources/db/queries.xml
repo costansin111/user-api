@@ -4,7 +4,7 @@
 <properties>
     <entry key="SQL_GET_ID_STUFF">
         <![CDATA[
-        select * from ID.ID
+        select * from id
         ]]>
     </entry>
 
@@ -14,11 +14,11 @@
         ]]>
     </entry>
 
-    <entry key="SQL_UPDATE_DATA">
+    <entry key="SQL_UPDATE_STUFF">
         <![CDATA[
-        update DATA
-        set DATA.DATA = :freeData
-        where DATA.ID = :id
+        update mydata
+        set mydata.mydata = :freeData
+        where mydata.ID = :id
         ]]>
     </entry>
 </properties>

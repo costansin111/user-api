@@ -13,32 +13,33 @@ import java.util.Properties;
 @Service
 public class ApiServiceImpl implements ApiService {
 
-    private final NamedParameterJdbcOperations jdbcOperations;
+    private final DataBaseRepository dataBaseRepository;
     private final Properties sqlQueries;
 
-    public ApiServiceImpl(NamedParameterJdbcOperations jdbcOperations, Properties sqlQueries) {
-        this.jdbcOperations = jdbcOperations;
+    public ApiServiceImpl(DataBaseRepository dataBaseRepository, Properties sqlQueries) {
+        this.dataBaseRepository = dataBaseRepository;
         this.sqlQueries = sqlQueries;
     }
 
-    public void setData(String userId, String id, String freeData) {
+    public void setData(String userId, String id, String myData) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("userId", userId);
         parameterSource.addValue("id", id);
-        parameterSource.addValue("freeData", freeData);
-        jdbcOperations.update(sqlQueries.getProperty("SQL_UPDATE_DATA"), parameterSource);
+        parameterSource.addValue("freeData", myData);
+        dataBaseRepository.setData(parameterSource);
 
     }
 
     @Override
     public String getData(String userId, String id) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        List<String> ifExsists = jdbcOperations.query(sqlQueries.getProperty("SQL_GET_ID_STUFF"), parameterSource, new SingleColumnRowMapper<String>());
-        if (!Boolean.getBoolean(ifExsists.get(0))) {
-           throw new NotFoundException();
-        }
+//        List<String> ifExsists = jdbcOperations.query(sqlQueries.getProperty("SQL_GET_ID_STUFF"), parameterSource, new SingleColumnRowMapper<>());
+//        if (!Boolean.getBoolean(ifExsists.get(0))) {
+//           throw new NotFoundException();
+//        }
 
         parameterSource.addValue("id", id);
-        jdbcOperations.query(sqlQueries.getProperty("SQL_GET_ID_STUFF"), parameterSource, new SingleColumnRowMapper<String>());
+//        jdbcOperations.query(sqlQueries.getProperty("SQL_GET_ID_STUFF"), parameterSource, new SingleColumnRowMapper<String>());
         return null;
     }
 }
