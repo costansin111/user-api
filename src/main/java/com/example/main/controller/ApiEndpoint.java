@@ -1,28 +1,31 @@
 package com.example.main.controller;
 
-import com.example.main.service.impl.ApiServiceImpl;
+import com.example.main.entity.MyData;
+import com.example.main.repository.DataBaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
 public class ApiEndpoint {
 
     @Autowired
-    private ApiServiceImpl apiService;
+    private DataBaseRepository dataBaseRepository;
 
 
     @GetMapping(value = "get/{UserId}/{Id}",
         produces = {"application/json"})
-    public String getData(@PathVariable("UserId") String userId, @PathVariable("Id") String id) {
-        return apiService.getData(userId, id);
+    public List<MyData> getData(@PathVariable("UserId") String userId, @PathVariable("Id") String id) {
+        return dataBaseRepository.getAllData(userId, id);
     }
 
     @PostMapping(value = "set/{UserId}/{Id}",
         produces = {"application/json"})
     public String setData(@PathVariable("UserId") String userId, @PathVariable("Id") String id,
-                         @RequestBody String freeData) {
-        apiService.setData(userId, id, freeData);
+                         @RequestBody String myData) {
+        dataBaseRepository.setMyData(userId, id, myData);
         return "";
     }
 }

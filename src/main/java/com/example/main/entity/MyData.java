@@ -9,17 +9,20 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
-@Table(name = "freedata")
+@Table(name = "mydata")
 public class MyData {
 
     @Id
+    @Column(name = "id")
     private Long id;
 
-    private String freeData;
+    @Column(name = "my_data")
+    private String myData;
 
+    @Column(name = "timecreate")
     private Timestamp timeCreate;
 
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
+    @JoinColumn(name = "user_Id", nullable = false)
     private UserId userId;
 }
